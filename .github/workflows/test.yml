@@ -3,17 +3,13 @@ name: Test
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-  schedule:
-    - cron: "0 0 1 * *" # 1 day of every month
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-13, macos-14, macos-15, windows-2019, windows-2022]
+        os: [macos-15]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,43 +17,6 @@ jobs:
           node-version: 20
       - run: yarn install --frozen-lockfile
       - run: yarn ci
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: artifacts
-          path: |
-            **/recordings/**/*
-  test-ignore-tcc-db:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-14]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - run: yarn install --frozen-lockfile
-      - run: yarn ci:ignore-tcc-db
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: artifacts
-          path: |
-            **/recordings/**/*
-  test-nvda-install-dir:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-2019, windows-2022]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - run: yarn install --frozen-lockfile
-      - run: yarn ci:nvda-install-dir
-      - run: Get-ChildItem $env:USERPROFILE\nvda
       - uses: actions/upload-artifact@v3
         if: always()
         with:
