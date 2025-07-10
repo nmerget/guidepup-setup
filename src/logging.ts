@@ -12,6 +12,12 @@ export function handleComplete(): never {
   process.exit(0);
 }
 
+export function handleInfo(message: string): void {
+  logWarn("");
+  logWarn(chalk.blue(`Info: ${chalk.bold(message)}`));
+  logWarn("");
+}
+
 export function handleWarning(title: string, subtitle: string): void {
   logWarn("");
   logWarn(chalk.bold(chalk.yellow(`[!] Warning: ${chalk.bold(title)}`)));

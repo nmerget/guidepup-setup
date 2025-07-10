@@ -9,7 +9,7 @@ import { isSipEnabled } from "./isSipEnabled";
 import { writeDatabaseFile } from "./writeDatabaseFile";
 import { SYSTEM_PATH, USER_PATH, updateTccDb } from "./updateTccDb";
 import { isAppleScriptControlEnabled } from "./isAppleScriptControlEnabled";
-import { handleWarning, logInfo } from "../logging";
+import {handleInfo, handleWarning, logInfo} from "../logging";
 import { ERR_MACOS_REQUIRES_MANUAL_USER_INTERACTION } from "../errors";
 import { enableDoNotDisturb } from "./enableDoNotDisturb";
 import { enabledDbFile } from "./isAppleScriptControlEnabled/enabledDbFile";
@@ -50,12 +50,17 @@ export async function setup(): Promise<void> {
     : () => null;
 
   try {
+    handleInfo("🆚 Checking macOS version");
     checkVersion();
+    handleInfo("🕛 Enabling AppleScript control system defaults");
     enableAppleScriptControlSystemDefaults();
+    handleInfo("🕐 Disabling splash screen system defaults");
     disableSplashScreenSystemDefaults();
+    handleInfo("🕑 Disabling dictation input auto-enable");
     disableDictationInputAutoEnable();
 
     if (isCi) {
+      handleInfo("🤫 Enabling Do Not Disturb mode");
       await enableDoNotDisturb();
     }
 
