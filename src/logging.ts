@@ -12,12 +12,15 @@ export function handleComplete(): never {
   process.exit(0);
 }
 
+export function handleInfo(message: string): void {
+  logInfo(chalk.blue(`Info: ${chalk.bold(message)}`));
+  logInfo("");
+}
+
 export function handleWarning(title: string, subtitle: string): void {
-  logWarn("");
   logWarn(chalk.bold(chalk.yellow(`[!] Warning: ${chalk.bold(title)}`)));
-  logWarn("");
   logWarn(subtitle);
-  logError("");
+  logWarn("");
 }
 
 export function handleError(err: Error): never {
@@ -35,8 +38,8 @@ export function handleError(err: Error): never {
   logError(
     chalk.dim(
       "Please raise new issues at: " +
-        chalk.underline("https://github.com/guidepup/setup/issues")
-    )
+        chalk.underline("https://github.com/guidepup/setup/issues"),
+    ),
   );
   logError("");
 

@@ -3,3 +3,4 @@ lib
 .DS_Store
 coverage
 recordings
+.idea

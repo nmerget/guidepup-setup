@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "build": "yarn clean && yarn compile",
-    "ci": "yarn clean && yarn lint && yarn build && yarn resolutionFix && yarn start --ci --record",
+    "ci": "yarn clean && yarn lint && yarn build && yarn resolutionFix && yarn start --ci --record --dnd-optional",
     "ci:nvda-install-dir": "yarn clean && yarn lint && yarn build && yarn resolutionFix && yarn start --ci --record --nvda-install-dir %userprofile%\\nvda",
     "ci:ignore-tcc-db": "yarn clean && yarn lint && yarn build && yarn resolutionFix && yarn start --ci --record --ignore-tcc-db",
     "clean": "rimraf lib",

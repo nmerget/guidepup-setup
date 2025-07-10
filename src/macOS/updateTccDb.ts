@@ -244,8 +244,27 @@ export function updateTccDb(path: string): void {
       execSync(`sqlite3 "${path}" "${query}" >/dev/null 2>&1`);
     } catch (e) {
       throw new Error(
-        `${ERR_MACOS_UNABLE_TO_WRITE_USER_TCC_DB}\n\n${e.message}`
+        `${ERR_MACOS_UNABLE_TO_WRITE_USER_TCC_DB}\n\n${e.message}`,
       );
     }
+  }
+}
+
+/**
+ * Get TCC entries for /usr/bin/osascript in the database.
+ * @param dbPath Path to the TCC.db
+ * @returns the database entries for /usr/bin/osascript or undefined if an error occurs.
+ */
+export function getAllOsaScriptEntries(dbPath: string): string | undefined {
+  const query = `
+    SELECT * FROM access
+    WHERE client='/usr/bin/osascript'
+  `;
+  try {
+    return execSync(`sqlite3 "${dbPath}" "${query.replace(/\n/g, " ")}"`, {
+      encoding: "utf8",
+    }).trim();
+  } catch {
+    return;
   }
 }
