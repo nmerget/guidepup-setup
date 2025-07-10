@@ -24,6 +24,8 @@ const ignoreTccDb = process.argv.includes("--ignore-tcc-db");
 const isRecorded = process.argv.includes("--record");
 
 export async function setup(): Promise<void> {
+  handleInfo(`👀 Check if SIP is enabled: ${isSipEnabled()}`);
+
   if (!ignoreTccDb) {
     try {
       handleInfo("🆙 Update TCC.db for USER_PATH");
