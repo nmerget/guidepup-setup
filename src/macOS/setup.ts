@@ -39,6 +39,7 @@ export async function setup(): Promise<void> {
       } else {
         handleWarning("❌ OSA script post event is not available", osaScripts);
       }
+      handleInfo(osaScripts);
     } catch (e) {
       if (isCi) {
         throw e;
