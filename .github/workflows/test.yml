@@ -7,8 +7,6 @@ jobs:
   test:
     name: Test - ${{ matrix.os }} - ${{ matrix.index }}
     runs-on: ${{ matrix.os }}
-    outputs:
-      failure: ${{ steps.setup.outcome == 'failure' }}
     strategy:
       fail-fast: false
       matrix:
@@ -42,12 +40,3 @@ jobs:
           name: recording-${{ matrix.os }}-${{ matrix.index }}
           path: |
             **/recordings/**/*
-
-  rerun-test:
-    needs: test
-    runs-on: ubuntu-latest
-    if: needs.test.outputs.failure == 'true'
-    steps:
-      - name: Rerun failed setups
-        run: |
-          gh run rerun ${{ github.run_id }} --repo ${{ github.repository }} --failed
