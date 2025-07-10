@@ -31,12 +31,23 @@ export async function setup(): Promise<void> {
 
       handleInfo("🤔 Check if OSA script post event is written for USER_PATH");
       const osaScripts = getAllOsaScriptEntries(USER_PATH);
+      const isOsaScriptPostEventAvailable = osaScripts.includes(
+        "kTCCServicePostEvent|/usr/bin/osascript",
+      );
       handleInfo(
-        osaScripts
+        isOsaScriptPostEventAvailable
           ? "✅ OSA script post event is available"
           : "❌ OSA script post event is not available",
       );
-      handleInfo(osaScripts);
+      if (isOsaScriptPostEventAvailable) {
+        handleInfo(
+          isOsaScriptPostEventAvailable
+            ? "✅ OSA script post event is available"
+            : "❌ OSA script post event is not available",
+        );
+      } else {
+        handleWarning("❌ OSA script post event is not available", osaScripts);
+      }
     } catch (e) {
       if (isCi) {
         throw e;
