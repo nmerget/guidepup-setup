@@ -244,41 +244,27 @@ export function updateTccDb(path: string): void {
       execSync(`sqlite3 "${path}" "${query}" >/dev/null 2>&1`);
     } catch (e) {
       throw new Error(
-        `${ERR_MACOS_UNABLE_TO_WRITE_USER_TCC_DB}\n\n${e.message}`
+        `${ERR_MACOS_UNABLE_TO_WRITE_USER_TCC_DB}\n\n${e.message}`,
       );
     }
   }
 }
 
-
 /**
- * Checks if the TCC entry for /usr/bin/osascript exists in the database.
+ * Get TCC entries for /usr/bin/osascript in the database.
  * @param dbPath Path to the TCC.db
- * @returns true if the entry exists, otherwise false
+ * @returns the database entries for /usr/bin/osascript or undefined if an error occurs.
  */
-export function isOsaScriptPostEventWritten(dbPath: string): boolean {
+export function getAllOsaScriptEntries(dbPath: string): string | undefined {
   const query = `
-    SELECT COUNT(*) FROM access
-    WHERE
-      service='kTCCServicePostEvent'
-      AND client='/usr/bin/osascript'
-      AND allowed=1
-      AND prompt_count=3
-      AND csreq IS NULL
-      AND policy_id IS NULL
-      AND indirect_object_identifier=0
-      AND indirect_object_code_identity='UNUSED'
-      AND indirect_object_code_identity_type IS NULL
-      AND flags IS NULL
-      AND last_modified=${epoch}
+    SELECT * FROM access
+    WHERE client='/usr/bin/osascript'
   `;
   try {
-    const result = execSync(
-      `sqlite3 "${dbPath}" "${query.replace(/\n/g, " ")}"`,
-      { encoding: "utf8" }
-    ).trim();
-    return result === "1";
+    return execSync(`sqlite3 "${dbPath}" "${query.replace(/\n/g, " ")}"`, {
+      encoding: "utf8",
+    }).trim();
   } catch {
-    return false;
+    return;
   }
 }

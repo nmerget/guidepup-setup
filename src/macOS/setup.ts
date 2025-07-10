@@ -11,7 +11,7 @@ import {
   SYSTEM_PATH,
   USER_PATH,
   updateTccDb,
-  isOsaScriptPostEventWritten,
+  getAllOsaScriptEntries,
 } from "./updateTccDb";
 import { isAppleScriptControlEnabled } from "./isAppleScriptControlEnabled";
 import { handleInfo, handleWarning, logInfo } from "../logging";
@@ -30,12 +30,13 @@ export async function setup(): Promise<void> {
       updateTccDb(USER_PATH);
 
       handleInfo("🤔 Check if OSA script post event is written for USER_PATH");
-      const isOsaAvailable = isOsaScriptPostEventWritten(USER_PATH);
+      const osaScripts = getAllOsaScriptEntries(USER_PATH);
       handleInfo(
-        isOsaAvailable
+        osaScripts
           ? "✅ OSA script post event is available"
           : "❌ OSA script post event is not available",
       );
+      handleInfo(osaScripts);
     } catch (e) {
       if (isCi) {
         throw e;
