@@ -34,17 +34,8 @@ export async function setup(): Promise<void> {
       const isOsaScriptPostEventAvailable = osaScripts.includes(
         "kTCCServicePostEvent|/usr/bin/osascript",
       );
-      handleInfo(
-        isOsaScriptPostEventAvailable
-          ? "✅ OSA script post event is available"
-          : "❌ OSA script post event is not available",
-      );
       if (isOsaScriptPostEventAvailable) {
-        handleInfo(
-          isOsaScriptPostEventAvailable
-            ? "✅ OSA script post event is available"
-            : "❌ OSA script post event is not available",
-        );
+        handleInfo("✅ OSA script post event is available");
       } else {
         handleWarning("❌ OSA script post event is not available", osaScripts);
       }
@@ -60,8 +51,8 @@ export async function setup(): Promise<void> {
     } catch {
       // Swallow error - most CI don't allow system configuration
       handleWarning(
-        "Update failed TCC.db for SYSTEM_PATH",
-        "most CI don't allow system configuration",
+        "❌ Update failed TCC.db for SYSTEM_PATH",
+        "--- most CI don't allow system configuration",
       );
     }
   } else {
