@@ -1,8 +1,7 @@
 name: Test
 
 on:
-  push:
-    branches: [test-macos-15]
+  pull_request:
 
 jobs:
   test:
